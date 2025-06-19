@@ -15,9 +15,9 @@ function! s:save_temp_file(lines)
 endfunction
 
 function! s:delete_tmpfile(path)
-  if filereadable(a:path)
-    call delete(a:path)
-  endif
+	if filereadable(a:path)
+		call delete(a:path)
+	endif
 endfunction
 
 function! aim#Rewrite() range abort
@@ -27,8 +27,7 @@ function! aim#Rewrite() range abort
 	let l:ollama_cmd = s:ollama . ' "' . s:system . '" < ' . shellescape(l:tmpfile)
 	let l:ollama_cmd = l:ollama_cmd . ' > ' . l:outputfile
 
-	let l:raw = system(l:ollama_cmd)
-	let l:clean = s:clean_output(l:raw)
+	call system(l:ollama_cmd)
 
 	if filereadable(l:outputfile)
 		let l:out_lines = readfile(l:outputfile)
