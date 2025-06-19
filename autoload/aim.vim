@@ -20,11 +20,12 @@ function! s:delete_tmpfile(path)
 	endif
 endfunction
 
-function! aim#Rewrite() range abort
+function! aim#Ask(...) range abort
 	let l:lines = getline(a:firstline, a:lastline)
 	let l:tmpfile = s:save_temp_file(l:lines)
+	let l:prompt = a:0 > 0 ? a:1 : s:system
 	let l:outputfile = tempname()
-	let l:ollama_cmd = s:ollama . ' "' . s:system . '" < ' . shellescape(l:tmpfile)
+	let l:ollama_cmd = s:ollama . ' "' . l:prompt . '" < ' . shellescape(l:tmpfile)
 	let l:ollama_cmd = l:ollama_cmd . ' > ' . l:outputfile
 
 	call system(l:ollama_cmd)
