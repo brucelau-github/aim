@@ -22,6 +22,12 @@ endfunction
 
 function! aim#Ask(...) range abort
 	let l:lines = getline(a:firstline, a:lastline)
+
+	if empty(filter(copy(l:lines), 'v:val =~# "\\S"'))
+		echoerr 'Error: Selected range is empty or only contains whitespace.'
+		return
+	endif
+
 	let l:tmpfile = s:save_temp_file(l:lines)
 	let l:prompt = a:0 > 0 ? a:1 : s:system
 	let l:outputfile = tempname()
