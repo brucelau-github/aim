@@ -38,7 +38,9 @@ function! aim#Ask(...) range abort
 
 	if filereadable(l:outputfile)
 		let l:out_lines = readfile(l:outputfile)
-		call append(line('.'), l:out_lines)
+		let l:separator = repeat('-', 40)
+		let l:wrapped = [l:separator] + l:out_lines + [l:separator]
+		call append(a:lastline, l:wrapped)
 	else
 		echoerr 'response file not found: ' . l:outputfile
 	endif
