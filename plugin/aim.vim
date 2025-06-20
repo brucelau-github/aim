@@ -1,3 +1,8 @@
+if !executable('ollama')
+	echoerr "ollama is required for aim plugin"
+	finish
+endif
+
 let s:plugin_root = expand('<sfile>:p:h:h')
 
 command! -range Aask <line1>,<line2>call aim#Ask()
