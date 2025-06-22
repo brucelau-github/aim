@@ -25,7 +25,7 @@ function! s:delete_tmpfile(path)
 	endif
 endfunction
 
-function! s:call_llm(prompt) abort
+function! s:ollama_cmd(prompt) abort
 	let l:tmpfile = s:save_temp_file(a:prompt)
 	let l:outputfile = tempname()
 	let l:ollama_cmd = s:ollama . ' < ' . shellescape(l:tmpfile)
@@ -42,6 +42,43 @@ function! s:call_llm(prompt) abort
 		echoerr 'response file not found: ' . l:outputfile
 	endif
 	return l:out_lines
+endfunction
+
+function! s:ollama_rest(prompt) abort
+	if empty(a:prompt)
+		echoerr "Prompt is empty"
+		return
+	endif
+
+	let l:prompt = a:prompt
+	if type(a:prompt) == type([])
+		let l:prompt = join(a:prompt, "\n")
+	endif
+
+	let l:url = 'http://localhost:11434/api/generate'
+	let l:model = 'llama3.2' " Change to your model name if needed
+
+	let l:data = json_encode({
+			\ 'model': l:model,
+			\ 'prompt': l:prompt,
+			\ 'stream': v:false
+			\ })
+
+	let l:cmd = 'curl -s -X POST ' . shellescape(l:url) . ' -H "Content-Type: application/json" -d ' . shellescape(l:data)
+
+	let l:result = system(l:cmd)
+
+	" Parse response (assumes JSON with 'response' field)
+	try
+		let l:resp = json_decode(l:result)
+		if has_key(l:resp, 'response')
+			return split(l:resp.response, '\n')
+		else
+			echoerr "No response field in result"
+		endif
+	catch
+		echoerr "Invalid JSON: " . l:result
+	endtry
 endfunction
 
 function! s:parse_quoted_list(lines) abort
