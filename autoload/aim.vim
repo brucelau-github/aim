@@ -1,4 +1,8 @@
-let s:ollama = 'COLOR=1 ollama run llama3.2:latest'
+if !exists('g:aim_ollama_model')
+	let g:aim_ollama_model = 'llama3.2'
+endif
+
+let s:ollama = 'COLOR=1 ollama run ' . g:aim_ollama_model
 let s:separator = repeat('-', 40)
 let s:completion_prompt = [
 	\' Generate a list of 5 strings to help the user to complete the thought of the following pargraph or code or sentence in a natural and coherent way.',
@@ -56,10 +60,9 @@ function! s:ollama_rest(prompt) abort
 	endif
 
 	let l:url = 'http://localhost:11434/api/generate'
-	let l:model = 'llama3.2' " Change to your model name if needed
 
 	let l:data = json_encode({
-			\ 'model': l:model,
+			\ 'model': g:aim_ollama_model,
 			\ 'prompt': l:prompt,
 			\ 'stream': v:false
 			\ })
