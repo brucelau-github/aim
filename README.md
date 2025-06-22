@@ -12,10 +12,11 @@ The plugin can be integrated into Vim using Vundle or other compatible bundle pl
 
 The following commands are available:
 
-- `:Aask`: Sends the current line to ollama, allowing for real-time feedback and taking advantage of the range modifier option.
+- `:Aask`: Sends the current line or a select range to ollama. Like a ask question.
 - `:Arewrite`: Rewrites the current paragraph with suggested corrections.
 - `:Aenrich`: Expands the context, generating longer and error-free content.
 - `:Atalk`: Allows users to input their own instructions or prompts for the LLM.
+- `ctrl-j to Autocomplete in insert mode`: this will provide a list of 5 possible strings to complete your thought.
 
 ## Configuration
 
