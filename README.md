@@ -8,6 +8,13 @@ To install ollama, please consult their official guidelines available at [https:
 
 The plugin can be integrated into Vim using Vundle or other compatible bundle plugins.
 
+```bash
+call vundle#begin()
+...
+Plugin 'brucelau-github/aim'
+call vundle#end()
+```
+
 ## Commands
 
 The following commands are available:
