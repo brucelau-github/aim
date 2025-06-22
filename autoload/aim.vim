@@ -87,7 +87,7 @@ function! aim#Ask(prompt) range abort
 
 	let l:wrapped_prompt = [a:prompt] + ['', ''] + l:lines
 	let l:output = s:call_llm(l:wrapped_prompt)
-	let l:wrapped_output = ['>>> Assistant '] + l:output + [s:separator]
+	let l:wrapped_output = ['>>> Assistant ' . repeat('-', 26 )] + l:output + [s:separator]
 	call append(a:lastline, l:wrapped_output)
 endfunction
 
