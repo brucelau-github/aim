@@ -29,6 +29,13 @@ function! s:delete_tmpfile(path)
 	endif
 endfunction
 
+function! s:call_llm(prompt) abort
+	if executable('curl')
+		return s:ollama_rest(a:prompt)
+	endif
+	return s:ollama_cmd(a:prompt)
+endfunction
+
 function! s:ollama_cmd(prompt) abort
 	let l:tmpfile = s:save_temp_file(a:prompt)
 	let l:outputfile = tempname()
